@@ -56,17 +56,17 @@ Set the lockout threshold to 3 invalid attempts using an elevated PowerShell ses
 net accounts /lockoutthreshold:3
 ```
 
-![Lockout threshold command](screenshots/01-lockout-threshold-set.png)
+![Lockout threshold command](01-lockout-threshold-set.png)
 
 Verified with `net accounts` — Lockout threshold: 3, Lockout duration: 10 min, Observation window: 10 min:
 
-![Lockout policy verified](screenshots/02-lockout-policy-verified.png)
+![Lockout policy verified](02-lockout-policy-verified.png)
 
 ### 2. Trigger Account Lockout (Event ID 4740)
 
 After 3 consecutive wrong-password attempts at the lock screen, the account `abh` was locked out by Windows:
 
-![Account locked out](screenshots/03-account-locked-screen.png)
+![Account locked out](03-account-locked-screen.png)
 
 > This generates **Event ID 4740** in the Security log, recording the locked account name, the caller computer name, and the timestamp — allowing an analyst to trace the lockout back to the preceding chain of 4625 (failed logon) events.
 
@@ -89,7 +89,7 @@ Each command generates a corresponding Security log event: **4720** (created), *
 
 Sysmon's Process Create events were reviewed to see exactly which process executed the account changes, its parent process, command line, and file hashes:
 
-![Sysmon Event 1 - process create](screenshots/10-sysmon-event1-process-create.png)
+![Sysmon Event 1 - process create](10-sysmon-event1-process-create.png)
 
 This confirms the process ancestry: `cmd.exe`/`PowerShell` → `net.exe` → `net1.exe`, along with MD5/SHA256/IMPHASH values of the binary — data an analyst uses to confirm the executable is the legitimate Windows `net.exe` and not a masquerading tool.
 
@@ -97,11 +97,11 @@ This confirms the process ancestry: `cmd.exe`/`PowerShell` → `net.exe` → `ne
 
 The Security log accumulated 13,000+ events during the lab. General review showed a mix of expected events: 4624/4672 (logon/special logon), 5379 (Credential Manager), 4798/4799 (user/group enumeration), and 5058/5061 (cryptographic key operations).
 
-![Security log - 4624/4672](screenshots/05-security-log-4624-4672.png)
-![Security log overview](screenshots/06-security-log-overview.png)
-![Security log - 5379/5061](screenshots/07-security-log-5379-5061.png)
-![Security log - 4799/5058](screenshots/08-security-log-4799-5058.png)
-![Security log - 5033/4798](screenshots/09-security-log-5033-4798.png)
+![Security log - 4624/4672](05-security-log-4624-4672.png)
+![Security log overview](06-security-log-overview.png)
+![Security log - 5379/5061](07-security-log-5379-5061.png)
+![Security log - 4799/5058](08-security-log-4799-5058.png)
+![Security log - 5033/4798](09-security-log-5033-4798.png)
 
 ## Timeline Summary
 
