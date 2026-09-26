@@ -81,7 +81,7 @@ net user testuser1 /active:yes
 net user testuser1 /delete
 ```
 
-![Account lifecycle commands](screenshots/04-account-lifecycle-cmd.png)
+![Account lifecycle commands](04-account-lifecycle-cmd.png)
 
 Each command generates a corresponding Security log event: **4720** (created), **4738** (disabled), **4722** (enabled), **4726** (deleted).
 
